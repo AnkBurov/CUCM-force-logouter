@@ -87,6 +87,9 @@ public class Configuration {
     public CucmApiImplementation cucmApiImplementation() {
         return new CucmApiImplementation(env.getProperty("serverURL"),
                 env.getProperty("login"),
-                env.getProperty("password"));
+                env.getProperty("password"),
+                env.getProperty("techUserId"),
+                env.getProperty("techDeviceProfile"),
+                Integer.parseInt(env.getProperty("techExclusiveDuration")));
     }
 }

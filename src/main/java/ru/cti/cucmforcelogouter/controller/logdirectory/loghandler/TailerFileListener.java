@@ -49,6 +49,8 @@ public class TailerFileListener extends AbstractFileListener {
                             daoFacade.getPhoneDAO().update(phone);
                             logger.debug("Phone " + phone.getDeviceName() + " has been marked as ended");
                         }
+                        //temporary login this phone with tech user to kick out previous user
+                        cucmApiImplementation.doTempLogin(phone.getDeviceName());
                     }
                 } catch (UncategorizedSQLException e) {
                     logger.trace("Phone " + bufferDeviceName + " " + bufferMessageTime + " already added in the DB");
