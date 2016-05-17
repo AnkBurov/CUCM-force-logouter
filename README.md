@@ -15,7 +15,7 @@
 * Download or compile the latest release of the application
 * Extract zip archive in needed place
 * Configure settings in etc/config.properties. See detailed comments in the file. Speficy at least CUCM URL, login, password and log path of Verint RIS log directory
-* "javaw.exe -Dapp.home=%pathApplicationDirectory% -jar %pathApplicationDirectory% \cucmforcelogouter-1.0-SNAPSHOT.jar" where %pathApplicationDirectory% is your path to the application directory
+* "javaw.exe -Dapp.home=%pathApplicationDirectory% -jar %pathApplicationDirectory% \cucmforcelogouter-1.1-SNAPSHOT.jar" where %pathApplicationDirectory% is your path to the application directory
 
 ## Release notes ##
 ### 1.1 ###
