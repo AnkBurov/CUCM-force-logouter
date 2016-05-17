@@ -9,4 +9,11 @@ public interface CucmApiInterface {
      * 2 - exception
      */
     public int sendLogout(String deviceName);
+
+    /**
+     * login specified in properties user to kick out previous user
+     *
+     * @param deviceName which deviceName make login
+     */
+    public void doTempLogin(String deviceName);
 }

@@ -19,6 +19,7 @@ import ru.cti.cucmforcelogouter.controller.logdirectory.loghandler.TailerFileLis
 import ru.cti.cucmforcelogouter.model.dbmaintenance.AbstractDBMaintenance;
 import ru.cti.cucmforcelogouter.model.dbmaintenance.DBMaintenance;
 import ru.cti.cucmforcelogouter.model.factory.PhoneFactory;
+import ru.cti.cucmforcelogouter.model.factory.PhoneListFactory;
 
 import javax.sql.DataSource;
 
@@ -77,9 +78,15 @@ public class Configuration {
     }
 
     @Bean
+    public PhoneListFactory phoneListFactory() {
+        return new PhoneListFactory();
+    }
+
+    @Bean
     public AbstractDBMaintenance dbMaintenance() {
         AbstractDBMaintenance dbMaintenance = new DBMaintenance();
         dbMaintenance.setMaximumPhoneAge(Integer.parseInt(env.getProperty("maximumPhoneAge")));
+        dbMaintenance.setMaximumPhoneListAge(Integer.parseInt(env.getProperty("maximumPhoneListAge")));
         return dbMaintenance;
     }
 
@@ -87,6 +94,9 @@ public class Configuration {
     public CucmApiImplementation cucmApiImplementation() {
         return new CucmApiImplementation(env.getProperty("serverURL"),
                 env.getProperty("login"),
-                env.getProperty("password"));
+                env.getProperty("password"),
+                env.getProperty("techUserId"),
+                env.getProperty("techDeviceProfile"),
+                Integer.parseInt(env.getProperty("techExclusiveDuration")));
     }
 }

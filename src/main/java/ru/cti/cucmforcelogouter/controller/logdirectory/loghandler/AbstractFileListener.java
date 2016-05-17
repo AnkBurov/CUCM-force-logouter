@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import ru.cti.cucmforcelogouter.controller.dao.DAOFacade;
 import ru.cti.cucmforcelogouter.controller.cucmapi.CucmApiImplementation;
 import ru.cti.cucmforcelogouter.model.factory.PhoneFactory;
+import ru.cti.cucmforcelogouter.model.factory.PhoneListFactory;
 
 import java.util.Observer;
 
@@ -16,6 +17,8 @@ public abstract class AbstractFileListener implements Observer {
     protected DAOFacade daoFacade;
     @Autowired
     protected PhoneFactory phoneFactory;
+    @Autowired
+    protected PhoneListFactory phoneListFactory;
     @Autowired
     protected CucmApiImplementation cucmApiImplementation;
     protected String soughtString;

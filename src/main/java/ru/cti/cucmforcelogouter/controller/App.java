@@ -23,6 +23,7 @@ public class App {
             dbMaintenance.createDB();
             abstractLogDirectoryHandler.observeLogBuffer();
             dbMaintenance.removeOldPhones();
+            dbMaintenance.removeOldPhonesFromPhoneList();
             try {
                 Thread.currentThread().sleep(1000);
             } catch (InterruptedException e) {
