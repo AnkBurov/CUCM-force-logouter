@@ -108,6 +108,8 @@ public class CucmApiImplementation implements CucmApiInterface {
             OutputStreamWriter writer = null;
             BufferedReader reader = null;
             try {
+                //log EMRRequest for debugging purposes
+                logger.debug(EMRequest);
                 writer = new OutputStreamWriter(conn.getOutputStream());
                 writer.write(EMRequest);
                 logger.info("Logout message of phone " + deviceName + " has been send");

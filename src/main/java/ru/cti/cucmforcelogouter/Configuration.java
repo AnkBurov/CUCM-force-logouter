@@ -19,6 +19,7 @@ import ru.cti.cucmforcelogouter.controller.logdirectory.loghandler.TailerFileLis
 import ru.cti.cucmforcelogouter.model.dbmaintenance.AbstractDBMaintenance;
 import ru.cti.cucmforcelogouter.model.dbmaintenance.DBMaintenance;
 import ru.cti.cucmforcelogouter.model.factory.PhoneFactory;
+import ru.cti.cucmforcelogouter.model.factory.PhoneListFactory;
 
 import javax.sql.DataSource;
 
@@ -74,6 +75,11 @@ public class Configuration {
     @Bean
     public PhoneFactory phoneFactory() {
         return new PhoneFactory();
+    }
+
+    @Bean
+    public PhoneListFactory phoneListFactory() {
+        return new PhoneListFactory();
     }
 
     @Bean

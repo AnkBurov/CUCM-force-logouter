@@ -48,6 +48,11 @@ public class PhoneListDAO implements GenericDAO<PhoneList, Integer> {
         return jdbcTemplate.queryForObject("SELECT * FROM PhoneList where id = ?;", new ItemMapper(), key);
     }
 
+    public List<PhoneList> readByDeviceName(String deviceName) {
+        return jdbcTemplate.query("SELECT * FROM PhoneList where deviceName = ?;",
+                new ItemMapper(), deviceName);
+    }
+
     @Override
     public int update(PhoneList entity) {
         return jdbcTemplate.update("UPDATE PhoneList SET deviceName = ?, additionTime = ? where id = ?;",

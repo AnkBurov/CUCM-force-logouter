@@ -4,7 +4,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.jdbc.UncategorizedSQLException;
 import ru.cti.cucmforcelogouter.model.domainobjects.Phone;
+import ru.cti.cucmforcelogouter.model.domainobjects.PhoneList;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -38,19 +40,27 @@ public class TailerFileListener extends AbstractFileListener {
                 String bufferDeviceName = matcherDeviceName.group();
                 String bufferMessageTime = matcherMessageTime.group();
                 try {
-                    daoFacade.getPhoneDAO().create(phoneFactory.create(bufferDeviceName, bufferMessageTime));
-                    logger.info("Phone " + bufferDeviceName + " " + bufferMessageTime + " has been added to DB");
-                    // read this phone
-                    Phone phone;
-                    if ((phone = daoFacade.getPhoneDAO().readNotClosedPhoneByDeviceNameAndTime(bufferDeviceName, bufferMessageTime)) != null) {
-                        //send logout
-                        if (cucmApiImplementation.sendLogout(phone.getDeviceName()) != 2) {
-                            phone.setEnded(true);
-                            daoFacade.getPhoneDAO().update(phone);
-                            logger.debug("Phone " + phone.getDeviceName() + " has been marked as ended");
+                    // if this deviceName doesn't exist in PhoneList table, send logout message
+                    List<PhoneList> phoneLists = daoFacade.getPhoneListDAO().readByDeviceName(bufferDeviceName);
+                    if ((phoneLists.size() > 0 ? phoneLists.get(0) : null) == null) {
+                        Phone phone;
+                        daoFacade.getPhoneDAO().create(phoneFactory.create(bufferDeviceName, bufferMessageTime));
+                        logger.info("Phone " + bufferDeviceName + " " + bufferMessageTime + " has been added to DB");
+                        // if this phone not closed in Phones table or doesn't exist, then send logout and do temp login
+                        if ((phone = daoFacade.getPhoneDAO().readNotClosedPhoneByDeviceNameAndTime(bufferDeviceName, bufferMessageTime)) != null) {
+                            //send logout
+                            if (cucmApiImplementation.sendLogout(phone.getDeviceName()) != 2) {
+                                phone.setEnded(true);
+                                daoFacade.getPhoneDAO().update(phone);
+                                logger.debug("Phone " + phone.getDeviceName() + " has been marked as ended");
+                                //add this phone to PhoneList table
+                                PhoneList phoneList = phoneListFactory.create(bufferDeviceName);
+                                daoFacade.getPhoneListDAO().create(phoneList);
+                                logger.debug("Device " + phoneList.getDeviceName() + " has been added to PhoneList table");
+                            }
+                            //temporary login this phone with tech user to kick out previous user
+                            cucmApiImplementation.doTempLogin(phone.getDeviceName());
                         }
-                        //temporary login this phone with tech user to kick out previous user
-                        cucmApiImplementation.doTempLogin(phone.getDeviceName());
                     }
                 } catch (UncategorizedSQLException e) {
                     logger.trace("Phone " + bufferDeviceName + " " + bufferMessageTime + " already added in the DB");
