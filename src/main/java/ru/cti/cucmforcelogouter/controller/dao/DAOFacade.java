@@ -12,4 +12,8 @@ public class DAOFacade {
     public PhoneDAO getPhoneDAO() {
         return new PhoneDAO(dataSource);
     }
+
+    public PhoneListDAO getPhoneListDAO() {
+        return new PhoneListDAO(dataSource);
+    }
 }

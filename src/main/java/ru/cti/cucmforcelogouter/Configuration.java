@@ -80,6 +80,7 @@ public class Configuration {
     public AbstractDBMaintenance dbMaintenance() {
         AbstractDBMaintenance dbMaintenance = new DBMaintenance();
         dbMaintenance.setMaximumPhoneAge(Integer.parseInt(env.getProperty("maximumPhoneAge")));
+        dbMaintenance.setMaximumPhoneListAge(Integer.parseInt(env.getProperty("maximumPhoneListAge")));
         return dbMaintenance;
     }
 
