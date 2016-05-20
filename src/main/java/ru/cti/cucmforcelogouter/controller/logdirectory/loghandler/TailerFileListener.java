@@ -1,7 +1,7 @@
 package ru.cti.cucmforcelogouter.controller.logdirectory.loghandler;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.UncategorizedSQLException;
 import ru.cti.cucmforcelogouter.model.domainobjects.Phone;
 import ru.cti.cucmforcelogouter.model.domainobjects.PhoneList;
@@ -12,7 +12,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class TailerFileListener extends AbstractFileListener {
-    private Logger logger = LogManager.getLogger(TailerFileListener.class);
+    private static final Logger logger = LoggerFactory.getLogger("Mine");
     private Pattern patternDeviceName;
     private Pattern patternMessageTime;
     private Observable tailer;
@@ -65,8 +65,7 @@ public class TailerFileListener extends AbstractFileListener {
                 } catch (UncategorizedSQLException e) {
                     logger.trace("Phone " + bufferDeviceName + " " + bufferMessageTime + " already added in the DB");
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    logger.catching(e);
+                    logger.error(e.getMessage(), e);
                 }
             }
         }

@@ -1,7 +1,7 @@
 package ru.cti.cucmforcelogouter.controller;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.cti.cucmforcelogouter.controller.logdirectory.AbstractLogDirectoryHandler;
 import ru.cti.cucmforcelogouter.model.dbmaintenance.AbstractDBMaintenance;
@@ -11,7 +11,7 @@ import ru.cti.cucmforcelogouter.model.dbmaintenance.AbstractDBMaintenance;
  * Consists of lower hierarchy classes
  */
 public class App {
-    private static final Logger logger = LogManager.getLogger(App.class);
+    private static final Logger logger = LoggerFactory.getLogger("Mine");
     @Autowired
     private AbstractLogDirectoryHandler abstractLogDirectoryHandler;
     @Autowired
@@ -27,7 +27,7 @@ public class App {
             try {
                 Thread.currentThread().sleep(1000);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error(e.getMessage(), e);
             }
         }
     }

@@ -1,8 +1,9 @@
 package ru.cti.cucmforcelogouter.controller.cucmapi;
 
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.net.ssl.*;
 import java.io.BufferedReader;
@@ -16,11 +17,13 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 
 public class CucmApiImplementation implements CucmApiInterface {
+    private static final Logger logger = LoggerFactory.getLogger("Mine");
     private String serverURL;
     private String login;
     private String password;
     private String techUserId;
     private String techDeviceProfile;
+
     private int techExclusiveDuration;
 
     public CucmApiImplementation(String serverURL, String login, String password, String techUserId, String techDeviceProfile, int techExclusiveDuration) {
@@ -31,8 +34,6 @@ public class CucmApiImplementation implements CucmApiInterface {
         this.techDeviceProfile = techDeviceProfile;
         this.techExclusiveDuration = techExclusiveDuration;
     }
-
-    private static final Logger logger = LogManager.getLogger(CucmApiImplementation.class);
 
     private void disableSslVerification() throws KeyManagementException, NoSuchAlgorithmException {
         // Create a trust manager that does not validate certificate chains
@@ -135,7 +136,7 @@ public class CucmApiImplementation implements CucmApiInterface {
 
             } catch (Exception e) {
                 e.printStackTrace();
-                logger.catching(e);
+                logger.error(e.getMessage(), e);
                 result = 2;
             } finally {
                 //Cleanup the stream objects
@@ -143,8 +144,7 @@ public class CucmApiImplementation implements CucmApiInterface {
                 reader.close();
             }
         } catch (Exception e) {
-            logger.catching(e);
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
         return result;
     }
@@ -222,16 +222,18 @@ public class CucmApiImplementation implements CucmApiInterface {
                 }
 
             } catch (Exception e) {
-                e.printStackTrace();
-                logger.catching(e);
+                logger.error(e.getMessage(), e);
             } finally {
                 //Cleanup the stream objects
-                writer.close();
-                reader.close();
+                if (writer != null) {
+                    writer.close();
+                }
+                if (reader != null) {
+                    reader.close();
+                }
             }
         } catch (Exception e) {
-            logger.catching(e);
-            e.printStackTrace();
+            logger.error(e.getMessage(), e);
         }
     }
 }

@@ -1,14 +1,14 @@
 package ru.cti.cucmforcelogouter.model.dbmaintenance;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.cti.cucmforcelogouter.model.domainobjects.Phone;
 import ru.cti.cucmforcelogouter.model.domainobjects.PhoneList;
 
 import java.util.List;
 
 public class DBMaintenance extends AbstractDBMaintenance {
-    private static final Logger logger = LogManager.getLogger(DBMaintenance.class);
+    private static final Logger logger = LoggerFactory.getLogger("Mine");
 
     /**
      * Create DB with needed scheme and tables if not exists
@@ -32,8 +32,7 @@ public class DBMaintenance extends AbstractDBMaintenance {
                             " has been deleted");
                 }
             } catch (Exception e) {
-                e.printStackTrace();
-                logger.catching(e);
+                logger.error(e.getMessage(), e);
             }
         }
         return phones.size();
@@ -52,8 +51,7 @@ public class DBMaintenance extends AbstractDBMaintenance {
                             "maximumPhoneListAge");
                 }
             } catch (Exception e) {
-                e.printStackTrace();
-                logger.catching(e);
+                logger.error(e.getMessage(), e);
             }
         }
         return oldPhones.size();

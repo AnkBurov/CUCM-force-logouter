@@ -14,10 +14,18 @@
             </Policies>
             <DefaultRolloverStrategy max="10"/>
         </RollingFile>
+        <Console name="STDERR" target="SYSTEM_ERR">
+            <PatternLayout pattern="[%p] %m %n"/>
+        </Console>
     </Appenders>
     <Loggers>
-        <Root level="debug">
+        <logger name="Mine" level="info" additivity="false">
             <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="STDERR" level="warn"/>
+        </logger>
+        <Root level="warn">
+            <AppenderRef ref="RollingFile"/>
+            <AppenderRef ref="STDERR"/>
         </Root>
     </Loggers>
 </Configuration>
