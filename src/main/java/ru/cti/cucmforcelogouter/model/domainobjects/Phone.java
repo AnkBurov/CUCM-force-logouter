@@ -3,13 +3,12 @@ package ru.cti.cucmforcelogouter.model.domainobjects;
 import javax.persistence.*;
 
 @Entity
+@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"deviceName", "messageTime"}))
 public class Phone extends DomainEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(unique = true)
     private String deviceName;
-    @Column(unique = true)
     private String messageTime;
     private boolean isEnded;
     private long additionTime;

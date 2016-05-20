@@ -12,65 +12,32 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.core.env.Environment;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import ru.cti.cucmforcelogouter.controller.dao.DAOFacade;
 import ru.cti.cucmforcelogouter.model.dbmaintenance.AbstractDBMaintenance;
 import ru.cti.cucmforcelogouter.model.dbmaintenance.DBMaintenance;
 import ru.cti.cucmforcelogouter.model.domainobjects.PhoneList;
 import ru.cti.cucmforcelogouter.model.factory.PhoneListFactory;
+import ru.cti.cucmforcelogouter.model.repository.PhoneListRepository;
 
+@ContextConfiguration(classes = ru.cti.cucmforcelogouter.Configuration.class)
+@RunWith(SpringJUnit4ClassRunner.class)
 public class TestDB {
     ApplicationContext context = new AnnotationConfigApplicationContext(ru.cti.cucmforcelogouter.Configuration.class);
-
-    private AbstractDBMaintenance dbMaintenance = context.getBean(AbstractDBMaintenance.class);
-    private DAOFacade daoFacade = context.getBean(DAOFacade.class);
-    private PhoneListFactory phoneListFactory = context.getBean(PhoneListFactory.class);
+    @Autowired
+    private PhoneListRepository phoneListRepository;
+    @Autowired
+    private AbstractDBMaintenance dbMaintenance;
+    @Autowired
+    private PhoneListFactory phoneListFactory;
     private PhoneList phoneList;
 
-
-    public DAOFacade getDaoFacade() {
-        return daoFacade;
-    }
-
-    public void setDaoFacade(DAOFacade daoFacade) {
-        this.daoFacade = daoFacade;
-    }
-
-    public PhoneListFactory getPhoneListFactory() {
-        return phoneListFactory;
-    }
-
-    public void setPhoneListFactory(PhoneListFactory phoneListFactory) {
-        this.phoneListFactory = phoneListFactory;
-    }
-
-    public AbstractDBMaintenance getDbMaintenance() {
-        return dbMaintenance;
-    }
-
-    public void setDbMaintenance(AbstractDBMaintenance dbMaintenance) {
-        this.dbMaintenance = dbMaintenance;
-    }
-
-    public PhoneList getPhoneList() {
-        return phoneList;
-    }
-
-    public void setPhoneList(PhoneList phoneList) {
-        this.phoneList = phoneList;
-    }
-
     @Before
-    public void setUp() throws Exception {
-        dbMaintenance.createDB();
-        phoneList = phoneListFactory.create("SEP000000000000");
-        daoFacade.getPhoneListDAO().create(phoneList);
-        phoneList = daoFacade.getPhoneListDAO().readByDeviceName(phoneList.getDeviceName()).get(0);
+    public void setUp() {
+        phoneList = phoneListRepository.save(phoneListFactory.create("SEP000000000000"));
     }
 
     @Test
     public void testSize() {
-        int phoneListSize = daoFacade.getPhoneListDAO().readByDeviceName(phoneList.getDeviceName()).size();
-        Assert.assertTrue(phoneListSize > 0);
+        Assert.assertTrue(phoneList != null);
     }
 
     @Test
@@ -81,7 +48,7 @@ public class TestDB {
     }
 
     @After
-    public void tearDown() throws Exception {
-        daoFacade.getPhoneListDAO().delete(phoneList.getId());
+    public void tearDown() {
+        phoneListRepository.delete(phoneList);
     }
 }

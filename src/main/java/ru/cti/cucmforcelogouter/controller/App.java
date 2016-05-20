@@ -20,7 +20,6 @@ public class App {
     public void doWork() {
         logger.info("Application has been started");
         while (true) {
-            dbMaintenance.createDB();
             abstractLogDirectoryHandler.observeLogBuffer();
             dbMaintenance.removeOldPhones();
             dbMaintenance.removeOldPhonesFromPhoneList();

@@ -11,7 +11,6 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import ru.cti.cucmforcelogouter.controller.App;
-import ru.cti.cucmforcelogouter.controller.dao.DAOFacade;
 import ru.cti.cucmforcelogouter.controller.logdirectory.AbstractLogDirectoryHandler;
 import ru.cti.cucmforcelogouter.controller.logdirectory.LogDirectoryHandler;
 import ru.cti.cucmforcelogouter.controller.logdirectory.loghandler.AbstractFileTailer;
@@ -93,11 +92,6 @@ public class Configuration {
     @Scope("prototype")
     public AbstractFileTailer fileTailer() {
         return new FileTailer(Integer.parseInt(env.getProperty("timeoutUntilInterrupt")));
-    }
-
-    @Bean
-    public DAOFacade daoFacade() {
-        return new DAOFacade(dataSource());
     }
 
     @Bean

@@ -19,12 +19,12 @@
         </Console>
     </Appenders>
     <Loggers>
-        <logger name="Mine" level="info" additivity="false">
+        <logger name="Mine" level="debug" additivity="false">
             <AppenderRef ref="RollingFile"/>
             <AppenderRef ref="STDERR" level="warn"/>
         </logger>
-        <Root level="warn">
-            <AppenderRef ref="RollingFile"/>
+        <Root level="info">
+            <AppenderRef ref="RollingFile" level="warn"/>
             <AppenderRef ref="STDERR"/>
         </Root>
     </Loggers>
