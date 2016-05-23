@@ -18,11 +18,14 @@
 * "javaw.exe -Dapp.home=%pathApplicationDirectory% -jar %pathApplicationDirectory% \cucmforcelogouter-1.1-SNAPSHOT.jar" where %pathApplicationDirectory% is your path to the application directory
 
 ## Release notes ##
+
 ### 1.2 ###
 * Fixed regexp to cover custom device names like SEP902B34CD5Aa
 * Added Hibernate as a JPA provider and Spring Data. SQLite dialect used from https://github.com/gwenn/sqlite-dialect
+
 ### 1.1 ###
 * Added login for tech end user behavior
 * Added time restriction for sending logouts - each logout message can be send for each phone not earlier than specified amount of time
+
 ### 1.0 ###
 * Release.
