@@ -1,7 +1,7 @@
 package ru.cti.cucmforcelogouter.controller.logdirectory;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.cti.cucmforcelogouter.controller.logdirectory.loghandler.AbstractFileTailer;
 
 import java.io.File;
@@ -10,7 +10,7 @@ import java.io.File;
  * This concrete class observes sourcePath directory for log files and for each one starts new thread for parsing and analyzing
  */
 public class LogDirectoryHandler extends AbstractLogDirectoryHandler {
-    private static final Logger logger = LogManager.getLogger(LogDirectoryHandler.class);
+    private static final Logger logger = LoggerFactory.getLogger("Mine");
 
     public LogDirectoryHandler(String logExtension, String destPath, String soughtString) {
         super(logExtension, destPath, soughtString);
@@ -43,7 +43,7 @@ public class LogDirectoryHandler extends AbstractLogDirectoryHandler {
                 try {
                     Thread.currentThread().sleep(5000);
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    logger.error(e.getMessage(), e);
                 }
             }
         }

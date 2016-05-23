@@ -1,4 +1,6 @@
 package ru.cti.cucmforcelogouter.model.domainobjects;
 
-public abstract class DomainEntity {
+import java.io.Serializable;
+
+public abstract class DomainEntity implements Serializable {
 }

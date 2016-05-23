@@ -4,6 +4,7 @@
 /logs/
 /target/
 /out/
+/src/main/java/observertest/
 *.iml
 *.class
 *.mf

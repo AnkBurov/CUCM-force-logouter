@@ -1,11 +1,14 @@
 package ru.cti.cucmforcelogouter.model.dbmaintenance;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import ru.cti.cucmforcelogouter.controller.dao.DAOFacade;
+import ru.cti.cucmforcelogouter.model.repository.PhoneListRepository;
+import ru.cti.cucmforcelogouter.model.repository.PhoneRepository;
 
 public abstract class AbstractDBMaintenance {
     @Autowired
-    protected DAOFacade daoFacade;
+    protected PhoneRepository phoneRepository;
+    @Autowired
+    protected PhoneListRepository phoneListRepository;
     protected long maximumPhoneAge;
     protected long maximumPhoneListAge;
 
@@ -25,11 +28,6 @@ public abstract class AbstractDBMaintenance {
     public void setMaximumPhoneListAge(int maximumPhoneListAge) {
         this.maximumPhoneListAge = maximumPhoneListAge * 3600000;
     }
-
-    /**
-     * Create DB with needed scheme and tables if not exists
-     */
-    public abstract void createDB();
 
     /**
      * Remove old calls that older than specified amount of time

@@ -1,7 +1,7 @@
 package ru.cti.cucmforcelogouter.controller.logdirectory.loghandler;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ru.cti.cucmforcelogouter.controller.logdirectory.AbstractLogDirectoryHandler;
 
 import java.io.*;
@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 
 public class FileTailer extends AbstractFileTailer {
-    private static Logger logger = LogManager.getLogger(FileTailer.class);
+    private static final Logger logger = LoggerFactory.getLogger("Mine");
 
     public FileTailer() {
     }
@@ -42,17 +42,15 @@ public class FileTailer extends AbstractFileTailer {
                             Thread.currentThread().interrupt();
                         }
                     } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        logger.error(e.getMessage(), e);
                     }
                 }
                 notifyObservers(line);
             }
             throw new RuntimeException("File has been removed");
         } catch (IOException e) {
-            e.printStackTrace();
-            logger.catching(e);
+            logger.error(e.getMessage(), e);
         } catch (RuntimeException e) {
-            e.printStackTrace();
             logger.info("File " + file.getName() + " has been removed");
         } finally {
             AbstractLogDirectoryHandler.removeHandledFile(file);
