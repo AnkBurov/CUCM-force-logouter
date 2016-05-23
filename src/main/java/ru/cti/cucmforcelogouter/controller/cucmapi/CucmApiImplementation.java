@@ -140,8 +140,12 @@ public class CucmApiImplementation implements CucmApiInterface {
                 result = 2;
             } finally {
                 //Cleanup the stream objects
-                writer.close();
-                reader.close();
+                if (writer != null) {
+                    writer.close();
+                }
+                if (reader != null) {
+                    reader.close();
+                }
             }
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

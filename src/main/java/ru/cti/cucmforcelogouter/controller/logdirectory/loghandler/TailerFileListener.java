@@ -41,22 +41,21 @@ public class TailerFileListener extends AbstractFileListener {
                 String bufferMessageTime = matcherMessageTime.group();
                 try {
                     // if this deviceName doesn't exist in PhoneList table, send logout message
-                    if (phoneListRepository.findOneByDeviceName(bufferDeviceName) == null) {
-                        // check if this deviceName already presented in Phone table
-                        if (phoneRepository.findByDeviceNameAndMessageTime(bufferDeviceName, bufferMessageTime) == null) {
-                            // add this deviceName to Phone table
-                            Phone phone = phoneRepository.save(phoneFactory.create(bufferDeviceName, bufferMessageTime));
-                            logger.info("Phone " + bufferDeviceName + " " + bufferMessageTime + " has been added to DB");
-                            //send logout. 2 = exception
-                            if (cucmApiImplementation.sendLogout(phone.getDeviceName()) != 2) {
-                                phone.setEnded(true);
-                                logger.debug("Phone " + phone.getDeviceName() + " has been marked as ended");
-                                //add this phone to PhoneList table
-                                PhoneList phoneList = phoneListRepository.save(phoneListFactory.create(bufferDeviceName));
-                                logger.debug("Device " + phoneList.getDeviceName() + " has been added to PhoneList table");
-                                //temporary login this phone with tech user to kick out previous user
-                                cucmApiImplementation.doTempLogin(phone.getDeviceName());
-                            }
+                    // check if this deviceName already presented in Phone table
+                    if (phoneListRepository.findOneByDeviceName(bufferDeviceName) == null &&
+                            phoneRepository.findByDeviceNameAndMessageTime(bufferDeviceName, bufferMessageTime) == null) {
+                        // add this deviceName to Phone table
+                        Phone phone = phoneRepository.save(phoneFactory.create(bufferDeviceName, bufferMessageTime));
+                        logger.info("Phone " + bufferDeviceName + " " + bufferMessageTime + " has been added to DB");
+                        //send logout. 2 = exception
+                        if (cucmApiImplementation.sendLogout(phone.getDeviceName()) != 2) {
+                            phone.setEnded(true);
+                            logger.debug("Phone " + phone.getDeviceName() + " has been marked as ended");
+                            //add this phone to PhoneList table
+                            PhoneList phoneList = phoneListRepository.save(phoneListFactory.create(bufferDeviceName));
+                            logger.debug("Device " + phoneList.getDeviceName() + " has been added to PhoneList table");
+                            //temporary login this phone with tech user to kick out previous user
+                            cucmApiImplementation.doTempLogin(phone.getDeviceName());
                         }
                     }
                 } catch (Exception e) {
