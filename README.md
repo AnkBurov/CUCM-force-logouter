@@ -18,7 +18,7 @@
 * "javaw.exe -Dapp.home=%pathApplicationDirectory% -jar %pathApplicationDirectory% \cucmforcelogouter-1.1-SNAPSHOT.jar" where %pathApplicationDirectory% is your path to the application directory
 
 ## Release notes ##
-## 1.2 ##
+### 1.2 ###
 * Fixed regexp to cover custom device names like SEP902B34CD5Aa
 * Added Hibernate as a JPA provider and Spring Data. SQLite dialect used from https://github.com/gwenn/sqlite-dialect
 ### 1.1 ###
